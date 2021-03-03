@@ -18,20 +18,6 @@ jobs:
       - run: yarn
       - run: yarn test
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - run: yarn
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
@@ -41,7 +27,11 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
+          scope: '@tigdevs'
       - run: yarn
+      - run: git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com" && git config --global user.name "$GITHUB_ACTOR"
+      - run: yarn version --minor
+      - run: git push --tags && git push
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
