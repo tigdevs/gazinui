@@ -1,10 +1,16 @@
 {
-  "name": "gazinui",
-  "version": "1.0.0",
+  "name": "@tigdevs/gazinui",
+  "version": "0.1.0",
   "description": "Interface based on Gazin&#x27;s design system to React Applications.",
-  "author": "gazin",
+  "author": "tigdevs",
   "license": "MIT",
-  "repository": "gazin/gazinui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tigdevs/gazinui.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
