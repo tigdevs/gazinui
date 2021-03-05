@@ -15,7 +15,8 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: yarn install
     # Publish to npm
-    - run: yarn publish --access public
+    - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+    - run: yarn publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     # Setup .npmrc file to publish to GitHub Packages
