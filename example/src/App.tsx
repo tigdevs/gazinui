@@ -1,10 +1,9 @@
 import React from 'react'
 
-import { ExampleComponent } from 'gazinui'
-import 'gazinui/dist/index.css'
+import { GButton } from '@tigdevs/gazinui'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <GButton>Testando</GButton>
 }
 
 export default App

@@ -1,12 +1,10 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "standard",
-    "standard-react",
-    "plugin:prettier/recommended",
-    "prettier/standard",
-    "prettier/react",
-    "plugin:@typescript-eslint/eslint-recommended"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
   "env": {
     "node": true
@@ -23,12 +21,23 @@
       "version": "16"
     }
   },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "rules": {
     "space-before-function-paren": 0,
     "react/prop-types": 0,
     "react/jsx-handler-names": 0,
     "react/jsx-fragments": 0,
     "react/no-unused-prop-types": 0,
-    "import/export": 0
+    "import/export": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "prettier/prettier": "error"
   }
 }
