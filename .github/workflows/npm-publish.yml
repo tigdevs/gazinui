@@ -14,6 +14,8 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: yarn install
     # Publish to npm
+    - run: git config --global user.name "Gazin"
+    - run: git config --global user.email "gazin@gazin.com.br"
     - run: npm version ${{ github.event.release.tag_name }}
     - run: npm publish --access public
       env:
