@@ -1,4 +1,4 @@
-name: Node.js Package
+name: NPM Publish on Release
 on:
   release:
     types: [created]
@@ -14,6 +14,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: yarn install
     # Publish to npm
+    - run: npm version ${{ github.event.release.tag_name }}
     - run: npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
