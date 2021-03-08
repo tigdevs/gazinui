@@ -1,8 +1,8 @@
-# gazinui
+# GazinUI
 
 > Interface based on Gazin's design system to React Applications.
 
-[![NPM](https://img.shields.io/npm/v/gazinui.svg)](https://www.npmjs.com/package/@tigdevs/gazinui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@tigdevs/gazinui.svg)](https://www.npmjs.com/package/@tigdevs/gazinui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
