@@ -1,9 +1,5 @@
 export const theme = {
-  borders: {
-    '1px': '1px'
-  },
   colors: {
-    white: '#fff',
     primary: {
       50: '#f2f7fc',
       100: '#eef4fc',

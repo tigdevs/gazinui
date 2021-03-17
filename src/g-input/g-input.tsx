@@ -5,8 +5,9 @@ import {
   InputLeftElement,
   InputRightElement
 } from '@chakra-ui/react'
-import { theme } from '../theme'
+import { theme as gTheme } from '../theme'
 import { TGInput, Element } from './g-input.types'
+import { GExtendTheme } from '../g-extend-theme'
 
 const GInput = ({
   leftElement,
@@ -14,6 +15,8 @@ const GInput = ({
   wrapperProps,
   ...props
 }: TGInput) => {
+  const theme = GExtendTheme(gTheme)
+
   const renderElement = (_element: Element): React.ReactNode => {
     if (typeof _element === 'object') {
       if (typeof (_element as unknown).render !== 'undefined') {
