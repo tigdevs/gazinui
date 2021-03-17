@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import { GazinProvider } from '../gazin-provider'
 import { GInput } from './g-input'
 
-describe('GButton', () => {
+describe('GInput', () => {
   it('should render standard input', () => {
     const { getByTestId } = render(
       <GazinProvider>
