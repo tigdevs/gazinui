@@ -15,7 +15,7 @@ const GInput = ({
   wrapperProps,
   ...props
 }: TGInput) => {
-  const theme = GExtendTheme(gTheme)
+  const THEME = GExtendTheme(gTheme)
 
   const renderElement = (_element: Element): React.ReactNode => {
     if (typeof _element === 'object') {
@@ -34,17 +34,17 @@ const GInput = ({
       {leftElement ? (
         <InputLeftElement
           pointerEvents='none'
-          color={theme.colors.primary['600']}
+          color={THEME.colors.primary['600']}
         >
           {renderElement(leftElement)}
         </InputLeftElement>
       ) : null}
       <Input
-        bg={theme.colors.white}
-        border={theme.borders['1px']}
-        borderColor={theme.colors.neutral['500']}
+        bg={THEME.colors.white}
+        border={THEME.borders['1px']}
+        borderColor={THEME.colors.neutral['500']}
         borderRadius='4px'
-        _placeholder={{ color: theme.colors.neutral['700'] }}
+        _placeholder={{ color: THEME.colors.neutral['700'] }}
         {...props}
       />
       {rightElement ? (
