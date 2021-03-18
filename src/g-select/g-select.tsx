@@ -73,7 +73,7 @@ const GSelect = ({
     _setValue(value)
     setOpen(false)
 
-    if (onChange && typeof onChange === 'function') {
+    if (typeof onChange === 'function') {
       onChange(value)
     }
   }
