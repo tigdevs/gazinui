@@ -2,7 +2,7 @@ import React from 'react'
 import { render, RenderResult } from '@testing-library/react'
 import { GazinProvider } from '../gazin-provider'
 import { GSelect } from './g-select'
-import { GOption } from '../g-option/g-option'
+import { GOption } from '../g-option'
 
 describe('GSelect', () => {
   it('should renders with primary color', () => {

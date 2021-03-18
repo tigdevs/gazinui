@@ -4,10 +4,10 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { theme as gTheme } from '../theme'
 import { GExtendTheme } from '../g-extend-theme'
 import { GSelectProps } from './g-select.types'
-import { GOption } from '../g-option/g-option'
-import { GOptionProps } from '../g-option/g-option.types'
+import { GOption } from '../g-option'
+import { GOptionProps } from '../g-option'
 
-const GSelect = ({
+export const GSelect = ({
   children,
   value,
   placeholder,
@@ -131,7 +131,9 @@ const GSelect = ({
                 changeValue(props.value as string | number)
               }
 
-              return option.type.prototype.constructor(props)
+              return (option.type as JSXElementConstructor<any>).prototype.constructor(
+                props
+              )
             }
           )}
         </Flex>
@@ -139,5 +141,3 @@ const GSelect = ({
     </Flex>
   )
 }
-
-export { GSelect }
