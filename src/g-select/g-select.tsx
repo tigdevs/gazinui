@@ -69,11 +69,11 @@ const GSelect = ({
     setOpen(!open)
   }
 
-  const changeValue = (newValue: string | number) => {
-    _setValue(newValue)
+  const changeValue = (value: string | number) => {
+    _setValue(value)
     setOpen(false)
 
-    if (value !== undefined && onChange && typeof onChange === 'function') {
+    if (onChange && typeof onChange === 'function') {
       onChange(value)
     }
   }
