@@ -9,7 +9,7 @@ export const GOption = ({ children, ...props }: GOptionProps) => {
   return (
     <Flex
       size='md'
-      grow='1'
+      flexGrow={1}
       px='12px'
       py='8px'
       whiteSpace='nowrap'
