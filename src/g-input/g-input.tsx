@@ -19,14 +19,14 @@ const GInput = ({
 
   const renderElement = (_element: Element): React.ReactNode => {
     if (typeof _element === 'object') {
-      if (typeof (_element as unknown).render !== 'undefined') {
+      if (typeof (_element as React.Component).render !== 'undefined') {
         return (_element as React.Component).render()
       } else {
         return _element as React.ReactNode
       }
     }
 
-    return (_element as React.FC)()
+    return (_element as React.FC)({})
   }
 
   return (
@@ -41,7 +41,8 @@ const GInput = ({
       ) : null}
       <Input
         bg={theme.colors.white}
-        border={`${theme.borders['1px']} solid ${theme.colors.neutral['500']}`}
+        border={theme.borders['1px']}
+        borderColor={theme.colors.neutral['500']}
         borderRadius='4px'
         _placeholder={{ color: theme.colors.neutral['700'] }}
         {...props}
