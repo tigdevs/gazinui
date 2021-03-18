@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { JSXElementConstructor, useEffect, useState } from 'react'
 import { Flex } from '@chakra-ui/layout'
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { theme as gTheme } from '../theme'
