@@ -9,7 +9,7 @@ import { theme as gTheme } from '../theme'
 import { TGInput, Element } from './g-input.types'
 import { GExtendTheme } from '../g-extend-theme'
 
-const GInput = ({
+export const GInput = ({
   leftElement,
   rightElement,
   wrapperProps,
@@ -55,5 +55,3 @@ const GInput = ({
     </InputGroup>
   )
 }
-
-export { GInput }
