@@ -17,6 +17,6 @@ describe('GSelect', () => {
 
     const select = getByTestId('__select')
 
-    expect(select.childNodes).toHaveLength(2)
+    expect(select.childNodes).toHaveLength(3)
   })
 })

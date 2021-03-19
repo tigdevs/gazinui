@@ -1,28 +1,59 @@
-import React, { JSXElementConstructor, useEffect, useState } from 'react'
+import React, {
+  BaseSyntheticEvent,
+  JSXElementConstructor,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
+import { jsx } from '@emotion/react'
 import { Flex } from '@chakra-ui/layout'
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
-import { theme as gTheme } from '../theme'
-import { GExtendTheme } from '../g-extend-theme'
-import { GSelectProps } from './g-select.types'
+import { GSelectProps, InputType } from './g-select.types'
 import { GOption } from '../g-option'
 import { GOptionProps } from '../g-option'
+
+type JSXElementConstructorEx<T> = JSXElementConstructor<T> & {
+  prototype: {
+    constructor: (...props: T[]) => JSXElementConstructor<T>
+  }
+}
 
 export const GSelect = ({
   children,
   value,
   placeholder,
-  onChange,
+  inputProps,
   ...props
 }: GSelectProps) => {
-  const THEME = GExtendTheme(gTheme)
   const DEFAULT_PLACEHOLDER = 'Selecione'
   const [open, setOpen] = useState(false)
-  const [_value, _setValue] = useState<string | number | null>(null)
   const [_placeholder, _setPlaceholder] = useState(
     placeholder ?? DEFAULT_PLACEHOLDER
   )
   const [_currentOption, _setCurrentOption] = useState<JSX.Element | null>(null)
-  const GRAY_400 = THEME.colors.gray['400']
+  const selectRef = useRef(null)
+  const inputRef = useRef<InputType | null>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: Event & MouseEvent) => {
+      if (
+        selectRef?.current &&
+        ((selectRef?.current as unknown) as Node).contains(
+          (e.target as unknown) as Node
+        )
+      ) {
+        return
+      }
+
+      setOpen(false)
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
 
   useEffect(() => {
     if (placeholder === undefined) {
@@ -33,19 +64,13 @@ export const GSelect = ({
   }, [placeholder])
 
   useEffect(() => {
-    if (value !== undefined) {
-      _setValue(value)
-    }
-  }, [value])
-
-  useEffect(() => {
     let optionFound = false
 
-    if (_value !== null) {
+    if (value !== null && value !== undefined) {
       for (const _children of children as React.ReactElement<GOptionProps>[]) {
-        if (_children.props.value === _value) {
+        if (_children.props.value === value) {
           _setCurrentOption(
-            <GOption value='test' _hover={{}}>
+            <GOption value={value} _hover={{}}>
               {_children.props.children}
             </GOption>
           )
@@ -58,55 +83,87 @@ export const GSelect = ({
 
     if (!optionFound) {
       _setCurrentOption(
-        <GOption value='' color={GRAY_400} _hover={{}}>
+        <GOption value='' color='gray.400' _hover={{}}>
           {_placeholder}
         </GOption>
       )
     }
-  }, [_value, _placeholder, children, GRAY_400])
+  }, [value, _placeholder, children])
 
   const toggle = () => {
     setOpen(!open)
   }
 
-  const changeValue = (value: string | number) => {
-    _setValue(value)
-    setOpen(false)
+  const inputDispatchEvent = (eventName: string) => {
+    const input = inputRef.current
 
-    if (typeof onChange === 'function') {
-      onChange(value)
+    if (!input) {
+      return
     }
+
+    const eventNameSanitized = eventName.toLowerCase()
+    const bufferName =
+      eventNameSanitized.charAt(0).toUpperCase() + eventNameSanitized.slice(1)
+
+    if (eventNameSanitized === 'change') {
+      input.value = input._valueTracker.getValue()
+      input._valueTracker.setValue('__placeholder__')
+    }
+
+    if (typeof input[eventNameSanitized] === 'function') {
+      input[eventNameSanitized]()
+    } else {
+      let ev: Event
+
+      if (window[`${bufferName}Event`]) {
+        ev = new window[`${bufferName}Event`](eventNameSanitized)
+      } else {
+        ev = new Event(eventNameSanitized)
+      }
+
+      ev.initEvent(eventNameSanitized, true)
+      input.dispatchEvent(ev)
+    }
+  }
+
+  useEffect(() => {
+    if (open) {
+      inputDispatchEvent('focus')
+    } else {
+      inputDispatchEvent('blur')
+    }
+  }, [open])
+
+  const changeValue = (newValue: string) => {
+    if (newValue !== value && inputRef.current) {
+      inputRef.current._valueTracker.setValue(newValue)
+
+      inputDispatchEvent('change')
+      inputDispatchEvent('input')
+    }
+
+    setOpen(false)
   }
 
   return (
     <Flex
-      bg={THEME.colors.white}
-      color={THEME.colors.gray[400]}
-      border={THEME.borders['1px']}
-      borderColor={THEME.colors.gray['300']}
+      bg='white'
+      border='1px'
+      borderColor='gray.300'
       borderRadius='4px'
       position='relative'
       userSelect='none'
       justifyItems='stretch'
       alignItems='center'
       onClick={toggle}
+      ref={selectRef}
       {...props}
     >
       {_currentOption}
       {open ? (
-        <ChevronUpIcon
-          color={THEME.colors.primary['600']}
-          mx='12px'
-          w='20px'
-          h='19px'
-        />
+        <ChevronUpIcon color='primary.600' mx='12px' w='20px' h='19px' />
       ) : (
-        <ChevronDownIcon
-          color={THEME.colors.primary['600']}
-          mx='12px'
-          w='20px'
-          h='19px'
-        />
+        <ChevronDownIcon color='primary.600' mx='12px' w='20px' h='19px' />
       )}
       {open ? (
         <Flex
@@ -117,27 +174,34 @@ export const GSelect = ({
           width='100%'
           py='15px'
           borderRadius='4px'
-          background={THEME.colors.white}
-          boxShadow='0px 3px 7px rgba(4, 47, 101, 0.1)'
+          backgroundColor='white'
+          boxShadow='0px 3px 7px rgba(0, 0, 0, 0.1)'
         >
           {(children as React.ReactElement<GOptionProps>[]).map(
-            (option, index) => {
+            (option: jsx.JSX.Element, index) => {
               const props = { ...option.props }
 
               props.key = index
-              props.onClick = (event) => {
+              props.onClick = (event: BaseSyntheticEvent) => {
                 event.stopPropagation()
 
-                changeValue(props.value as string | number)
+                changeValue(props.value)
               }
 
-              return (option.type as JSXElementConstructor<any>).prototype.constructor(
+              return (option.type as JSXElementConstructorEx<GOptionProps>).prototype.constructor(
                 props
               )
             }
           )}
         </Flex>
       ) : null}
+      <Flex position='absolute' w='0' h='0'>
+        {
+          ((
+            <input {...inputProps} type='text' ref={inputRef} value={value} />
+          ) as unknown) as InputType
+        }
+      </Flex>
     </Flex>
   )
 }
