@@ -28,17 +28,14 @@ export const GInput = ({
   return (
     <InputGroup {...wrapperProps}>
       {leftElement ? (
-        <InputLeftElement
-          pointerEvents='none'
-          color='primary.600'
-        >
+        <InputLeftElement pointerEvents='none' color='primary.600'>
           {renderElement(leftElement)}
         </InputLeftElement>
       ) : null}
       <Input
         bg='white'
         border='1px'
-        borderColor='neutral.500'
+        borderColor='gray.300'
         borderRadius='4px'
         _placeholder={{ color: 'neutral.700' }}
         {...props}
