@@ -176,6 +176,7 @@ export const GSelect = ({
           borderRadius='4px'
           backgroundColor='white'
           boxShadow='0px 3px 7px rgba(0, 0, 0, 0.1)'
+          zIndex={100}
         >
           {(children as React.ReactElement<GOptionProps>[]).map(
             (option: jsx.JSX.Element, index) => {
